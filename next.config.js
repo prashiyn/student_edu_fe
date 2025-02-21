@@ -1,3 +1,9 @@
+const createNextIntlPlugin = require('next-intl/plugin');
+
+const withNextIntl = createNextIntlPlugin(
+  './i18n/requests.ts'
+);
+
 const nextConfig = {
   reactStrictMode: false, // changed this to false
   images: {
@@ -23,4 +29,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = withNextIntl(nextConfig);

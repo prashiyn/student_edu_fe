@@ -1,15 +1,24 @@
-import SupabaseProvider from './supabase-provider';
-import { PropsWithChildren } from 'react';
+import SupabaseProvider from '@/providers/supabase-provider';
 import '@/styles/globals.css';
-import { ThemeProvider } from './theme-provider';
+import { ThemeProvider } from '@/providers/theme-provider';
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale, getMessages } from 'next-intl/server';
 
 export const dynamic = 'force-dynamic';
 
-export default function RootLayout({
+export default async function RootLayout({
   // Layouts must accept a children prop.
   // This will be populated with nested layouts or pages
-  children
-}: PropsWithChildren) {
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+
+  const locale = await getLocale();
+
+  // Providing all messages to the client
+  // side is the easiest way to get started
+  const messages = await getMessages();
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -17,6 +26,7 @@ export default function RootLayout({
           Horizon UI Boilerplate - Launch your startup project 10X in a few
           moments - The best NextJS Boilerplate (This is an example)
         </title>
+
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         {/* <!--  Social tags   --> */}
         <meta
@@ -71,11 +81,14 @@ export default function RootLayout({
         <link rel="icon" href="/img/favicon.ico" />
       </head>
       <body id={'root'} className="loading bg-white">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <SupabaseProvider>
-            <main id="skip">{children}</main>
-          </SupabaseProvider>
-        </ThemeProvider>
+        <NextIntlClientProvider messages={messages} locale={locale}>
+
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <SupabaseProvider>
+              <main id="skip">{children}</main>
+            </SupabaseProvider>
+          </ThemeProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

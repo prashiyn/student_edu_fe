@@ -1,8 +1,8 @@
 'use client';
 
 import type { Database } from '@/types/types_db';
-import { createPagesBrowserClient } from '@supabase/auth-helpers-nextjs';
-import type { SupabaseClient } from '@supabase/auth-helpers-nextjs';
+import { createBrowserClient } from '@supabase/ssr';
+import type { SupabaseClient } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
 import { createContext, useContext, useEffect, useState } from 'react';
 
@@ -17,7 +17,12 @@ export default function SupabaseProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [supabase] = useState(() => createPagesBrowserClient());
+  const [supabase] = useState(() => 
+    createBrowserClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    )
+  );
   const router = useRouter();
 
   useEffect(() => {
@@ -35,6 +40,8 @@ export default function SupabaseProvider({
   return <Context.Provider value={{ supabase }}>{children}</Context.Provider>;
 }
 
+// WARNING: This is a workaround to get the supabase client outside of the provider
+// ONLY USE THIS FOR SIGNOUT. Not for any other action
 export const useSupabase = () => {
   const context = useContext(Context);
 
@@ -42,5 +49,5 @@ export const useSupabase = () => {
     throw new Error('useSupabase must be used inside SupabaseProvider');
   }
 
-  return context;
+  return context.supabase;
 };

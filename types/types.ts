@@ -1,5 +1,4 @@
-import Stripe from 'stripe';
-import { ComponentType, ReactNode } from 'react';
+import { ComponentType } from 'react';
 
 export type OpenAIModel =
   | 'gpt-3.5-turbo'
@@ -36,13 +35,22 @@ export interface Customer {
   stripe_customer_id?: string;
 }
 
+export type ProductCategory =
+  | 'sat'
+  | 'gre'
+  | 'toefel'
+  | 'ucat'
+  | 'anzcat' | 'ielts' | 'gmat' | 'lsat' | 'mcat' | 'cat';
+
 export interface Product {
   id: string /* primary key */;
   active?: boolean;
   name?: string;
   description?: string;
   image?: string;
-  metadata?: Stripe.Metadata;
+  //this is a json object
+  metadata?: any
+  product_category?: ProductCategory;
 }
 
 export interface ProductWithPrice extends Product {
@@ -55,10 +63,11 @@ export interface UserDetails {
   last_name: string;
   full_name?: string;
   avatar_url?: string;
-  billing_address?: Stripe.Address;
-  payment_method?: Stripe.PaymentMethod[Stripe.PaymentMethod.Type];
+  billing_address?: any;
+  payment_method?: any;
 }
-
+export type Interval = 'day' | 'week' | 'month' | 'year';
+export type PriceType = 'one_time' | 'recurring';
 export interface Price {
   id: string /* primary key */;
   product_id?: string /* foreign key to products.id */;
@@ -66,21 +75,30 @@ export interface Price {
   description?: string;
   unit_amount?: number;
   currency?: string;
-  type?: Stripe.Price.Type;
-  interval?: Stripe.Price.Recurring.Interval;
+  type?: PriceType;
+  interval?: Interval;
   interval_count?: number;
   trial_period_days?: number | null;
-  metadata?: Stripe.Metadata;
+  metadata?: any;
   products?: Product;
 }
 
 export interface PriceWithProduct extends Price {}
 
+export type SubscriptionStatus =
+  | 'trialing'
+  | 'active'
+  | 'canceled'
+  | 'incomplete'
+  | 'incomplete_expired'
+  | 'past_due'
+  | 'unpaid'
+  | 'paused';
 export interface Subscription {
   id: string /* primary key */;
   user_id: string;
-  status?: Stripe.Subscription.Status;
-  metadata?: Stripe.Metadata;
+  status?: SubscriptionStatus;
+  metadata?: any;
   price_id?: string /* foreign key to prices.id */;
   quantity?: number;
   cancel_at_period_end?: boolean;

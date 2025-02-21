@@ -6,6 +6,7 @@ import { type Provider } from '@supabase/supabase-js';
 import { FcGoogle } from "react-icons/fc";
 import { useState } from 'react';
 import { Input } from '../ui/input';
+import { useTranslations } from 'next-intl';
 
 type OAuthProviders = {
   name: Provider;
@@ -14,10 +15,11 @@ type OAuthProviders = {
 };
 
 export default function OauthSignIn() {
+  const t = useTranslations('auth.oauth');
   const oAuthProviders: OAuthProviders[] = [
     {
-      name: 'google',
-      displayName: 'Google',
+      name: 'google' as Provider,
+      displayName: t('google'),
       icon: <FcGoogle className="h-5 w-5" />
     }
     /* Add desired OAuth providers here */

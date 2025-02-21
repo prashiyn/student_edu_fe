@@ -1,0 +1,114 @@
+{
+  "products": [
+    {
+      "id": "prod_kickstart",
+      "active": true,
+      "name": "Kickstart Plan - Free Plan",
+      "description": "Casually exploring SAT prep or want to explore the platform before committing",
+      "image": null,
+      "metadata": {
+        "features": [
+          "3 Practice Tests per month",
+          "Basic AI feedback",
+          "Progress tracking"
+        ]
+      },
+      "product_category": "sat"
+    },
+    {
+      "id": "prod_basic",
+      "active": true,
+      "name": "Standard Plan - Grind Mode",
+      "description": "Students preparing seriously for the SAT with a structured study plan.",
+      "image": null,
+      "metadata": {
+        "features": [
+          "3 Practice Tests per month",
+          "Basic AI feedback",
+          "Progress tracking"
+        ]
+      },
+      "product_category": "sat"
+    },
+    {
+      "id": "prod_rapid",
+      "active": true,
+      "name": "Premium Plan - Score Max",
+      "description": "High achievers aiming for 1400+ scores, needing deep analytics & personalized test planning",
+      "image": null,
+      "metadata": {
+        "features": [
+          "Unlimited Practice Tests",
+          "Advanced AI feedback",
+          "Detailed Analytics",
+          "Personalized Study Plan",
+          "Priority Support"
+        ]
+      },
+      "product_category": "sat"
+    },
+    {
+      "id": "prod_pro",
+      "active": true,
+      "name": "Pro Plan",
+      "description": "Comprehensive SAT preparation suite",
+      "image": null,
+      "metadata": {
+        "features": [
+          "Unlimited Practice Tests",
+          "Advanced AI feedback",
+          "Detailed Analytics",
+          "Personalized Study Plan",
+          "Priority Support"
+        ]
+      },
+      "product_category": "sat"
+    }
+  ],
+  "prices": [
+    {
+      "id": "free_forever",
+      "product_id": "prod_kickstart",
+      "active": true,
+      "currency": "usd",
+      "description": "Free Forever Plan",
+      "type": "recurring",
+      "unit_amount": 0,
+      "interval": "week",
+      "interval_count": 1
+    },
+    {
+      "id": "price_basic_monthly",
+      "product_id": "prod_basic",
+      "active": true,
+      "currency": "usd",
+      "description": "Basic Monthly Plan",
+      "type": "recurring",
+      "unit_amount": 5000,
+      "interval": "month",
+      "interval_count": 1
+    },
+    {
+      "id": "price_basic_yearly",
+      "product_id": "prod_rapid",
+      "active": true,
+      "currency": "usd",
+      "description": "One time payment for 12 months of access",
+      "type": "one_time",
+      "unit_amount": 29900,
+      "interval": "year",
+      "interval_count": 1
+    },
+    {
+      "id": "price_pro_monthly",
+      "product_id": "prod_pro",
+      "active": true,
+      "currency": "usd",
+      "description": "Pro Monthly Plan",
+      "type": "recurring",
+      "unit_amount": 9900,
+      "interval": "month",
+      "interval_count": 1
+    }
+  ]
+} 

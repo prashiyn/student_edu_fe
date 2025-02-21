@@ -1,11 +1,12 @@
 'use server';
 
-import { createClient } from '@/utils/supabase/server';
+import { createServerSideClient } from '@/utils/supabase/server';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { getURL, getErrorRedirect, getStatusRedirect } from '@/utils/helpers';
 import { getAuthTypes } from '@/utils/auth-helpers/settings';
-
+import config from '@/config/config';
+import { getSubscription } from '../supabase/queries';
 function isValidEmail(email: string) {
   var regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
   return regex.test(email);
@@ -18,7 +19,7 @@ export async function redirectToPath(path: string) {
 export async function SignOut(formData: FormData) {
   const pathName = String(formData.get('pathName')).trim();
 
-  const supabase = createClient();
+  const supabase = await createServerSideClient();
   const { error } = await supabase.auth.signOut();
 
   if (error) {
@@ -33,7 +34,7 @@ export async function SignOut(formData: FormData) {
 }
 
 export async function signInWithEmail(formData: FormData) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const callbackURL = getURL('/auth/callback');
 
   const email = String(formData.get('email')).trim();
@@ -47,7 +48,7 @@ export async function signInWithEmail(formData: FormData) {
     );
   }
 
-  const supabase = createClient();
+  const supabase = await createServerSideClient();
   let options = {
     emailRedirectTo: callbackURL,
     shouldCreateUser: true
@@ -101,7 +102,7 @@ export async function requestPasswordUpdate(formData: FormData) {
     );
   }
 
-  const supabase = createClient();
+  const supabase = await createServerSideClient();
 
   const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: callbackURL
@@ -132,12 +133,12 @@ export async function requestPasswordUpdate(formData: FormData) {
 }
 
 export async function signInWithPassword(formData: FormData) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const email = String(formData.get('email')).trim();
   const password = String(formData.get('password')).trim();
   let redirectPath: string;
 
-  const supabase = createClient();
+  const supabase = await createServerSideClient();
   const { error, data } = await supabase.auth.signInWithPassword({
     email,
     password
@@ -150,7 +151,24 @@ export async function signInWithPassword(formData: FormData) {
       error.message
     );
   } else if (data.user) {
-    cookieStore.set('preferredSignInView', 'password_signin', { path: '/' });
+    // check if the firstTimeSignUp flag and onboardingComplete keys are there is user_metadata
+    const user_metadata = data.user.user_metadata;
+    if (user_metadata.firstTImeSignUp === undefined) {
+      user_metadata.firstTImeSignUp = true;
+    }
+    if (user_metadata.onboardingComplete === undefined) {
+      user_metadata.onboardingComplete = false;
+    }
+    const { error: updateUserMetadataError } = await supabase.auth.updateUser({
+      data: user_metadata
+    });
+    if (updateUserMetadataError) {
+      redirectPath = getErrorRedirect(
+        '/dashboard/signin/password_signin',
+        'User metadata update failed.',
+        updateUserMetadataError.message
+      );
+    }
     redirectPath = getStatusRedirect('/', 'Success!', 'You are now signed in.');
   } else {
     redirectPath = getErrorRedirect(
@@ -168,8 +186,9 @@ export async function signUp(formData: FormData) {
 
   const email = String(formData.get('email')).trim();
   const password = String(formData.get('password')).trim();
+  const fullName = String(formData.get('fullName')).trim();
   let redirectPath: string;
-
+  console.log('email', email);
   if (!isValidEmail(email)) {
     redirectPath = getErrorRedirect(
       '/dashboard/signin/signup',
@@ -178,15 +197,21 @@ export async function signUp(formData: FormData) {
     );
   }
 
-  const supabase = createClient();
+  const supabase = await createServerSideClient();
   const { error, data } = await supabase.auth.signUp({
     email,
     password,
     options: {
+      data: {
+        full_name: fullName,
+        firstTimeSignUp: true,
+        onboardingComplete: false,
+      },
       emailRedirectTo: callbackURL
     }
   });
-
+  console.log('error', error);
+  console.log('data', data);
   if (error) {
     redirectPath = getErrorRedirect(
       '/dashboard/signin/signup',
@@ -194,7 +219,55 @@ export async function signUp(formData: FormData) {
       error.message
     );
   } else if (data.session) {
-    redirectPath = getStatusRedirect('/', 'Success!', 'You are now signed in.');
+    // Check for existing trials for this email
+
+    const subscription = await getSubscription(supabase);
+    // Create user details
+    const { error: userDetailsError } = await supabase.from('user_details').insert({
+      id: data.user.id,
+      full_name: fullName,
+      trial_credits: subscription ? 0 : config.freeTrialCredits,
+      credits: subscription ? 0 : config.freeTrialCredits,
+    });
+
+    if (userDetailsError) {
+      redirectPath = getErrorRedirect(
+        '/dashboard/signin/signup',
+        'User details creation failed.',
+        userDetailsError.message
+      );
+    }
+
+    // Only create subscription if no previous trial exists
+    if (!subscription) {
+      const { error: subscriptionError } = await supabase
+        .from('subscriptions')
+        .insert({
+          user_id: data.user.id,
+          user_email: email,
+          status: 'active',
+          price_id: 'free_forever',
+          product_id: 'prod_kickstart',
+          cancel_at_period_end: false,
+          created: new Date().toISOString(),
+          current_period_start: new Date().toISOString(),
+          current_period_end: new Date(Date.now() + config.freeTrialDays * 24 * 60 * 60 * 1000).toISOString(),
+          ended_at: null,
+          trial_end: new Date(Date.now() + config.freeTrialDays * 24 * 60 * 60 * 1000).toISOString(),
+          trial_start: new Date().toISOString(),
+          metadata: {}
+        });
+
+      if (subscriptionError) {
+        redirectPath = getErrorRedirect(
+          '/dashboard/signin/signup',
+          'Subscription creation failed.',
+          subscriptionError.message
+        );
+      }
+    }
+
+    redirectPath = getStatusRedirect('/dashboard', 'Success!', 'You are now signed in.');
   } else if (
     data.user &&
     data.user.identities &&
@@ -236,7 +309,7 @@ export async function updatePassword(formData: FormData) {
     );
   }
 
-  const supabase = createClient();
+  const supabase = await createServerSideClient();
   const { error, data } = await supabase.auth.updateUser({
     password
   });
@@ -277,7 +350,7 @@ export async function updateEmail(formData: FormData) {
     );
   }
 
-  const supabase = createClient();
+  const supabase = await createServerSideClient();
 
   const callbackUrl = getURL(
     getStatusRedirect(
@@ -313,7 +386,7 @@ export async function updateName(formData: FormData) {
   // Get form data
   const fullName = String(formData.get('fullName')).trim();
 
-  const supabase = createClient();
+  const supabase = await createServerSideClient();
   const { error, data } = await supabase.auth.updateUser({
     data: { full_name: fullName }
   });

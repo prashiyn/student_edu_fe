@@ -1,7 +1,7 @@
 import DefaultAuth from '@/components/auth';
 import AuthUI from '@/components/auth/AuthUI';
 import { redirect } from 'next/navigation';
-import { createClient } from '@/utils/supabase/server';
+import { createServerSideClient } from '@/utils/supabase/server';
 import { cookies } from 'next/headers';
 import {
   getAuthTypes,
@@ -17,10 +17,12 @@ export default async function SignIn({
   params: { id: string };
   searchParams: { disable_button: boolean };
 }) {
+  params = await params
+  searchParams = await searchParams
   const { allowOauth, allowEmail, allowPassword } = getAuthTypes();
   const viewTypes = getViewTypes();
   const redirectMethod = getRedirectMethod();
-
+  const cookieStore = await cookies()
   // Declare 'viewProp' and initialize with the default value
   let viewProp: string;
 
@@ -29,13 +31,13 @@ export default async function SignIn({
     viewProp = params.id;
   } else {
     const preferredSignInView =
-      cookies().get('preferredSignInView')?.value || null;
+      cookieStore.get('preferredSignInView')?.value || null;
     viewProp = getDefaultSignInView(preferredSignInView);
     return redirect(`/dashboard/signin/${viewProp}`);
   }
 
   // Check if the user is already logged in and redirect to the account page if so
-  const supabase = createClient();
+  const supabase = await createServerSideClient();
 
   const {
     data: { user }

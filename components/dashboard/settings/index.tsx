@@ -8,80 +8,68 @@ import { User } from '@supabase/supabase-js';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { createClient } from '@/utils/supabase/client';
-import { getURL, getStatusRedirect } from '@/utils/helpers';
-import Notifications from './components/notification-settings';
 import { Input } from '@/components/ui/input';
+import { updateUserEmail, updateUserName } from '@/utils/actions/settings';
+import Notifications from './components/notification-settings';
 
 interface Props {
   user: User | null | undefined;
   userDetails: { [x: string]: any } | null;
 }
 
-const supabase = createClient();
 export default function Settings(props: Props) {
   // Input States
   const [nameError, setNameError] = useState<{
     status: boolean;
     message: string;
   }>();
-  console.log(props.user);
-  console.log(props.userDetails);
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmitEmail = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setIsSubmitting(true);
+    
+    const newEmail = e.currentTarget.newEmail.value.trim();
     // Check if the new email is the same as the old email
-    if (e.currentTarget.newEmail.value === props.user.email) {
-      e.preventDefault();
+    if (newEmail === props.user?.email) {
       setIsSubmitting(false);
       return;
     }
-    // Get form data
-    const newEmail = e.currentTarget.newEmail.value.trim();
-    const callbackUrl = getURL(
-      getStatusRedirect(
-        '/dashboard/settings',
-        'Success!',
-        `Your email has been updated.`
-      )
-    );
-    e.preventDefault();
-    const { error } = await supabase.auth.updateUser(
-      { email: newEmail },
-      {
-        emailRedirectTo: callbackUrl
-      }
-    );
-    router.push('/dashboard/settings');
-    setIsSubmitting(false);
+
+    try {
+      await updateUserEmail(newEmail);
+      router.refresh();
+    } catch (error) {
+      console.error('Failed to update email:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleSubmitName = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setIsSubmitting(true);
+    
+    const fullName = e.currentTarget.fullName.value.trim();
     // Check if the new name is the same as the old name
-    if (e.currentTarget.fullName.value === props.user.user_metadata.full_name) {
-      e.preventDefault();
+    if (fullName === props.user?.user_metadata.full_name) {
       setIsSubmitting(false);
       return;
     }
-    // Get form data
-    const fullName = e.currentTarget.fullName.value.trim();
 
-    const { error } = await supabase
-      .from('users')
-      .update({ full_name: fullName })
-      .eq('id', props.user?.id);
-    if (error) {
-      console.log(error);
+    try {
+      await updateUserName(props.user?.id!, fullName);
+      router.refresh();
+    } catch (error) {
+      console.error('Failed to update name:', error);
+      setNameError({
+        status: true,
+        message: 'Failed to update name. Please try again.'
+      });
+    } finally {
+      setIsSubmitting(false);
     }
-    e.preventDefault();
-    supabase.auth.updateUser({
-      data: { full_name: fullName }
-    });
-    router.push('/dashboard/settings');
-    setIsSubmitting(false);
   };
 
   const notifications = [

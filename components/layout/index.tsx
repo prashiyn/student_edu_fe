@@ -1,6 +1,5 @@
 import Footer from '@/components/footer/FooterAdmin';
 import Navbar from '@/components/navbar/NavbarAdmin';
-import { routes } from '@/components/routes';
 import Sidebar from '@/components/sidebar/Sidebar';
 import { Toaster } from '@/components/ui/toaster';
 import { getActiveRoute } from '@/utils/navigation';
@@ -12,6 +11,7 @@ import {
   UserDetailsContext
 } from '@/contexts/layout';
 import React from 'react';
+import { useRoutes } from '@/components/routes';
 
 interface Props {
   children: React.ReactNode;
@@ -24,6 +24,7 @@ interface Props {
 const DashboardLayout: React.FC<Props> = (props: Props) => {
   const pathname = usePathname();
   const [open, setOpen] = React.useState(false);
+  const routes = useRoutes();
 
   return (
     <UserContext.Provider value={props.user}>

@@ -1,0 +1,33 @@
+{
+  "navigation": {
+    "routes": {
+      "main_dashboard": {
+        "name": "Main Dashboard"
+      },
+      "ai_chat": {
+        "name": "AI Chat"
+      },
+      "profile_settings": {
+        "name": "Profile Settings"
+      },
+      "ai_generator": {
+        "name": "AI Generator"
+      },
+      "ai_assistant": {
+        "name": "AI Assistant"
+      },
+      "users_list": {
+        "name": "Users List"
+      },
+      "subscription": {
+        "name": "Subscription"
+      },
+      "landing": {
+        "name": "Landing Page"
+      },
+      "pricing": {
+        "name": "Pricing Page"
+      }
+    }
+  }
+} 

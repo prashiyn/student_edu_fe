@@ -5,6 +5,7 @@ import NavLink from '@/components/link/NavLink';
 import { IRoute } from '@/types/types';
 import { usePathname } from 'next/navigation';
 import { PropsWithChildren, useCallback } from 'react';
+import { cn } from '@/lib/utils';
 
 interface SidebarLinksProps extends PropsWithChildren {
   routes: IRoute[];
@@ -18,9 +19,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
 
   // verifies if routeName is the one active (in browser input)
   const activeRoute = useCallback(
-    (routeName: string) => {
-      return pathname?.includes(routeName);
-    },
+    (routeName: string) => pathname?.includes(routeName),
     [pathname]
   );
   const activeLayout = useCallback(
@@ -37,18 +36,14 @@ export function SidebarLinks(props: SidebarLinksProps) {
         return (
           <div
             key={key}
-            className={`flex w-full max-w-full cursor-not-allowed items-center justify-between rounded-lg py-3 pl-8 font-medium`}
+            className="flex w-full max-w-full cursor-not-allowed items-center justify-between rounded-lg py-3 pl-8 font-medium opacity-30"
           >
             <div className="w-full items-center justify-center">
               <div className="flex w-full items-center justify-center">
-                <div
-                  className={`text mr-3 mt-1.5 text-zinc-950 opacity-30 dark:text-white`}
-                >
+                <div className="mr-3 mt-1.5">
                   {route.icon}
                 </div>
-                <p
-                  className={`mr-auto text-sm text-zinc-950 opacity-30 dark:text-white`}
-                >
+                <p className="mr-auto text-sm">
                   {route.name}
                 </p>
               </div>
@@ -59,11 +54,12 @@ export function SidebarLinks(props: SidebarLinksProps) {
         return (
           <div key={key}>
             <div
-              className={`flex w-full max-w-full items-center justify-between rounded-lg py-3 pl-8 ${
+              className={cn(
+                "flex w-full max-w-full items-center justify-between rounded-lg py-3 pl-8",
                 activeRoute(route.path.toLowerCase())
-                  ? 'bg-zinc-950 font-semibold text-white dark:bg-white dark:text-zinc-950'
-                  : 'font-medium text-zinc-950 dark:text-zinc-400'
-              }`}
+                  ? "bg-primary text-primary-foreground font-semibold"
+                  : "text-foreground/70 font-medium hover:bg-muted"
+              )}
             >
               <NavLink
                 href={route.layout ? route.layout + route.path : route.path}
@@ -72,22 +68,20 @@ export function SidebarLinks(props: SidebarLinksProps) {
               >
                 <div className="w-full items-center justify-center">
                   <div className="flex w-full items-center justify-center">
-                    <div
-                      className={`text mr-3 mt-1.5 ${
-                        activeRoute(route.path.toLowerCase())
-                          ? 'font-semibold text-white dark:text-zinc-950'
-                          : 'text-zinc-950 dark:text-white'
-                      } `}
-                    >
+                    <div className={cn(
+                      "mr-3 mt-1.5",
+                      activeRoute(route.path.toLowerCase())
+                        ? "text-primary-foreground"
+                        : "text-foreground/70"
+                    )}>
                       {route.icon}
                     </div>
-                    <p
-                      className={`mr-auto text-sm ${
-                        activeRoute(route.path.toLowerCase())
-                          ? 'font-semibold text-white dark:text-zinc-950'
-                          : 'font-medium text-zinc-950 dark:text-zinc-400'
-                      }`}
-                    >
+                    <p className={cn(
+                      "mr-auto text-sm",
+                      activeRoute(route.path.toLowerCase())
+                        ? "text-primary-foreground font-semibold"
+                        : "text-foreground/70 font-medium"
+                    )}>
                       {route.name}
                     </p>
                   </div>

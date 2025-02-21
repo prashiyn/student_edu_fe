@@ -7,31 +7,18 @@ import OauthSignIn from '@/components/auth-ui/OauthSignIn';
 import ForgotPassword from '@/components/auth-ui/ForgotPassword';
 import UpdatePassword from '@/components/auth-ui/UpdatePassword';
 import SignUp from '@/components/auth-ui/Signup';
+import { useTranslations } from 'next-intl';
 
 export default function AuthUI(props: any) {
+  const t = useTranslations('auth');
+
   return (
     <div className="my-auto mb-auto mt-8 flex flex-col md:mt-[70px] md:max-w-full lg:mt-[130px] lg:max-w-[420px]">
       <p className="text-[32px] font-bold text-zinc-950 dark:text-white">
-        {props.viewProp === 'signup'
-          ? 'Sign Up'
-          : props.viewProp === 'forgot_password'
-          ? 'Forgot Password'
-          : props.viewProp === 'update_password'
-          ? 'Update Password'
-          : props.viewProp === 'email_signin'
-          ? 'Email Sign In'
-          : 'Sign In'}
+        {t(`titles.${props.viewProp}`)}
       </p>
       <p className="mb-2.5 mt-2.5 font-normal text-zinc-950 dark:text-zinc-400">
-        {props.viewProp === 'signup'
-          ? 'Enter your email and password to sign up!'
-          : props.viewProp === 'forgot_password'
-          ? 'Enter your email to get a passoword reset link!'
-          : props.viewProp === 'update_password'
-          ? 'Choose a new password for your account!'
-          : props.viewProp === 'email_signin'
-          ? 'Enter your email to get a magic link!'
-          : 'Enter your email and password to sign in!'}
+        {t(`descriptions.${props.viewProp}`)}
       </p>
       {props.viewProp !== 'update_password' &&
         props.viewProp !== 'signup' &&

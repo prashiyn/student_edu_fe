@@ -1,0 +1,365 @@
+{
+  "navigation": {
+    "routes": {
+      "main_dashboard": {
+        "name": "SAT Command Center"
+      },
+      "ai_chat": {
+        "name": "AI Chat"
+      },
+      "profile_settings": {
+        "name": "Profile Settings"
+      },
+      "ai_generator": {
+        "name": "AI Generator"
+      },
+      "ai_assistant": {
+        "name": "AI Assistant"
+      },
+      "users_list": {
+        "name": "Users List"
+      },
+      "subscription": {
+        "name": "Subscription"
+      },
+      "landing": {
+        "name": "Landing Page"
+      },
+      "pricing": {
+        "name": "Pricing Page"
+      }
+    }
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "email": "Email",
+    "password": "Password",
+    "errors": {
+      "invalidEmail": "Invalid email address",
+      "signInFailed": "Sign in failed"
+    },
+    "success": {
+      "signedIn": "Successfully signed in",
+      "signedOut": "Successfully signed out"
+    },
+    "titles": {
+      "signup": "Sign Up",
+      "forgot_password": "Forgot Password",
+      "update_password": "Update Password",
+      "email_signin": "Email Sign In",
+      "password_signin": "Sign In"
+    },
+    "descriptions": {
+      "signup": "Enter your email and password to sign up!",
+      "forgot_password": "Enter your email to get a passoword reset link!",
+      "update_password": "Choose a new password for your account!",
+      "email_signin": "Enter your email to get a magic link!",
+      "password_signin": "Enter your email and password to sign in!"
+    },
+    "navigation": {
+      "back": "Back to home"
+    },
+    "signup": {
+      "email": {
+        "label": "Email",
+        "placeholder": "name@example.com"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Enter your password"
+      },
+      "button": {
+        "submit": "Sign up",
+        "loading": "Signing up..."
+      },
+      "links": {
+        "forgotPassword": "Forgot your password?",
+        "existingAccount": "Already have an account?",
+        "magicLink": "Sign in via magic link"
+      },
+      "validation": {
+        "passwordRequirements": "Password must be at least 6 characters long and contain lowercase letters, uppercase letters, symbols, and numbers.",
+        "invalidPassword": "Invalid Password"
+      }
+    },
+    "email_signin": {
+      "email": {
+        "label": "Email",
+        "placeholder": "name@example.com"
+      },
+      "button": {
+        "submit": "Sign in",
+        "loading": "Signing in..."
+      },
+      "links": {
+        "password": "Sign in with email and password",
+        "signup": "Don't have an account? Sign up"
+      }
+    },
+    "password_signin": {
+      "email": {
+        "label": "Email",
+        "placeholder": "name@example.com"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Enter your password"
+      },
+      "button": {
+        "submit": "Sign in",
+        "loading": "Signing in..."
+      },
+      "links": {
+        "forgot": "Forgot your password?",
+        "magic": "Sign in via magic link",
+        "signup": "Don't have an account? Sign up"
+      }
+    },
+    "forgot_password": {
+      "email": {
+        "label": "Email",
+        "placeholder": "name@example.com"
+      },
+      "button": {
+        "submit": "Send Email",
+        "loading": "Sending..."
+      },
+      "links": {
+        "password": "Sign in with email and password",
+        "magic": "Sign in via magic link",
+        "signup": "Don't have an account? Sign up"
+      }
+    },
+    "update_password": {
+      "password": {
+        "label": "New Password",
+        "placeholder": "Enter new password"
+      },
+      "confirm": {
+        "label": "Confirm New Password",
+        "placeholder": "Confirm new password"
+      },
+      "button": {
+        "submit": "Update Password",
+        "loading": "Updating..."
+      }
+    },
+    "oauth": {
+      "google": "Google"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "home": {
+    "brand": "Practice.ai",
+    "hero": {
+      "title": "Your Ultimate SAT Practice Hub",
+      "title2": "Get Ready, Get Confident, Get Higher Scores!",
+      "subtitle": "Practice smarter, improve faster, and walk into test day fully prepared—whether you have 6 months or 1 week to go!",
+      "subtitle1": "Experience personalized AI-powered learning that adapts to your needs. Practice with real exam-style questions and get instant feedback to improve your performance.",
+      "cta": {
+        "primary": "Start Practicing Now",
+        "secondary": "Take a free practice test",
+        "signin": "Sign In"
+      },
+      "cards": {
+        "0": {
+          "title": "Interactive Learning Platform"
+        },
+        "1": {
+          "title": "AI-Powered Assistance"
+        },
+        "2": {
+          "title": "Real-time Progress"
+        },
+        "3": {
+          "title": "Achievement System"
+        }
+      }
+    },
+    "features": {
+      "title": "Why Choose Us",
+      "subtitle": "Everything you need to succeed in your competitive exam preparation journey",
+      "cards": [
+        {
+          "title": "Practice That Feels Like the Real SAT",
+          "description1": "Full-length SAT simulations to build test-day confidence.",
+          "description2": "Targeted practice for every section—Reading, Writing, and Math"
+        },
+        {
+          "title": "Pinpoint Your Strengths & Weaknesses",
+          "description1": "Instant feedback to know exactly where you stand.",
+          "description2": "✔️ Skill-level tracking so you improve where it matters most"
+        },
+        {
+          "title": "Train for the Clock—Master Time Management",
+          "description1": "Learn how to finish on time without rushing.",
+          "description2": "See which types of questions slow you down and fix them"
+        }
+      ]
+    },
+    "benefits": {
+      "title": "Designed for Your Success",
+      "subtitle2": "Discover how our platform helps you achieve your exam preparation goals",
+      "subtitle1": "Whether you're cramming last minute or preparing months ahead, we've got a plan for you",
+      "tabs": {
+        "personalized": {
+          "title": "Personalized Learning",
+          "description": "Focus on the right topics, not random drills"
+        },
+        "practice": {
+          "title": "Smart Practice",
+          "description": "100% practice-based—no videos, no classrooms, just results"
+        },
+        "progress": {
+          "title": "Track Progress",
+          "description": "Monitor your improvement and get the right feedback"
+        }
+      }
+    },
+    "testimonials": {
+      "title": "What Our Students Say",
+      "subtitle": "Real stories from real students who achieved their dream scores",
+      "cards": [
+        {
+          "name": "Sarah Chen",
+          "role": "Scored 1580 on SAT",
+          "image": "/images/testimonials/student1.webp",
+          "quote": "The practice questions were incredibly similar to the actual SAT. I felt so prepared on test day!"
+        },
+        {
+          "name": "Michael Rodriguez",
+          "role": "Improved 300+ points",
+          "image": "/images/testimonials/student2.webp",
+          "quote": "The personalized feedback helped me focus on exactly what I needed to improve. Game changer!"
+        },
+        {
+          "name": "Emma Thompson",
+          "role": "Perfect Math Score",
+          "image": "/images/testimonials/student3.webp",
+          "quote": "I went from struggling with time management to finishing with confidence. The strategies really work!"
+        }
+      ]
+    },
+    "cta": {
+      "title": "Start Practicing Now – See Real Improvement in Just a Few Sessions!",
+      "description": "Join thousands of students who have already achieved their dream scores with our proven study methods.",
+      "buttons": {
+        "primary": "Start Practicing Now",
+        "secondary": "Take a free practice test",
+        "signin": "Sign In"
+      }
+    },
+    "statistics": {
+      "tests": "Practice Tests Taken",
+      "students": "Active Students",
+      "countries": "Countries Served",
+      "rating": "App Store Rating"
+    }
+  },
+  "sidebar": {
+    "brand": {
+      "name": "Practice.ai"
+    },
+    "profile": {
+      "settings": "Settings",
+      "defaultName": "User",
+      "signOut": {
+        "ariaLabel": "Sign out"
+      }
+    },
+    "upgrade": {
+      "title": "Why settle for less?",
+      "description": "You've started your SAT journey—now it's time to ",
+      "description2": "supercharge your prep ",
+      "description3": "with our premium plan!",
+      "button": "View Pricing"
+    }
+  },
+  "onboarding": {
+    "back": "Back",
+    "welcome": {
+      "title": "Welcome to Practice.ai – Your Personalized SAT Practice Hub!",
+      "subtitle": "Smarter Practice. Faster Improvement. Higher Scores.",
+      "features": {
+        "simulations": "Full-length SAT tests",
+        "practice": "Skill-based practice tailored for you",
+        "feedback": "Instant performance feedback & score tracking"
+      },
+      "button": "Let's Get Started"
+    },
+    "plan_setup": {
+      "title": "Tell Us About Your SAT Goals!",
+      "subtitle": "We'll create the best prep plan for you.",
+      "test_date": {
+        "label": "When are you taking the SAT?",
+        "options": {
+          "week": "In 1 week (Cram Mode)",
+          "month": "In 1 month (Intensive Prep)",
+          "quarter": "In 3+ months (Strategic Learning)"
+        }
+      },
+      "focus": {
+        "label": "Which section do you need the most help with?",
+        "options": {
+          "reading": "Reading & Writing",
+          "math": "Math",
+          "both": "Both"
+        }
+      },
+      "button": "Generate My SAT Plan"
+    },
+    "study_plan": {
+      "title": "Here's Your Smart SAT Plan! 🚀",
+      "subtitle": "Based on your test date & focus areas, we recommend:",
+      "features": {
+        "daily": {
+          "title": "Daily Practice",
+          "description": "Quick quizzes & skill-building exercises"
+        },
+        "weekly": {
+          "title": "Weekly Progress Check",
+          "description": "Track improvements in real-time"
+        },
+        "tests": {
+          "title": "Full-Length Tests",
+          "description": "Simulate the real SAT experience"
+        }
+      },
+      "button": "Start My First Practice Session"
+    },
+    "assessment": {
+      "title": "Kickstart Your SAT Prep with a Quick Assessment!",
+      "subtitle": "This short test helps us understand your strengths & weaknesses.",
+      "sections": {
+        "title": "Test Covers:",
+        "reading": "Reading & Writing (3-5 Questions)",
+        "math": "Math (3-5 Questions)"
+      },
+      "button": "Take the Quick Assessment"
+    }
+  },
+  "pricing": {
+    "title": "SAT Prep Pricing Plans – Designed for Every Student",
+    "subtitle": "Choose the perfect plan for your SAT preparation journey",
+    "card": {
+      "most_popular": "Most Popular",
+      "cta": "Get Started",
+      "per": "per"
+    }
+  },
+  "dashboard": {
+    "title": "Your SAT Command Center",
+    "description": "Track your progress, practice smarter, and get higher scores!",
+    "onboarding": {
+      "alert": {
+        "message": "Complete your onboarding to get a personalized learning experience",
+        "button": "Complete Onboarding"
+      }
+    }
+  }
+}
